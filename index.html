@@ -1,0 +1,322 @@
+<!doctype html><html lang="th"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e1014">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ตารางชีวิต">
+<title>ตารางชีวิต — SandOtnim</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e1014'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23e0b155' stroke-width='7'/><path d='M50 32v20l13 8' stroke='%23e0b155' stroke-width='7' stroke-linecap='round' fill='none'/></svg>">
+<style>
+:root{
+  --bg:#0e1014; --card:#171a21; --card2:#1e222b; --line:#2a2f3a;
+  --tx:#e8eaf0; --tx2:#9aa2b1; --tx3:#6b7382;
+  --gold:#e0b155; --gold2:#f2cd82; --green:#5ec98a; --red:#e0736a; --blue:#6ba8e8; --pur:#a98ce0;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--tx);
+  font-family:"Noto Sans Thai","IBM Plex Sans Thai",-apple-system,BlinkMacSystemFont,"Segoe UI",Thonburi,sans-serif;
+  line-height:1.7;-webkit-font-smoothing:antialiased;
+  padding:calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 84px)}
+.wrap{max-width:620px;margin:0 auto}
+
+/* header */
+header{margin-bottom:16px}
+.hrow{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+h1{font-size:22px;font-weight:700;line-height:1.3}
+.today{color:var(--tx3);font-size:13px;margin-left:auto;text-align:right;font-variant-numeric:tabular-nums}
+.now{color:var(--gold);font-weight:700}
+
+/* round bar */
+.rbar{background:linear-gradient(135deg,#241d10,#1a1d24);border:1px solid #4a3a1c;border-radius:14px;padding:16px 18px;margin-bottom:16px}
+.rbar .lb{font-size:11px;letter-spacing:2px;color:var(--gold);font-weight:700}
+.rbar .nm{font-size:18px;font-weight:700;color:var(--gold2);margin:4px 0 2px}
+.rbar .dt{font-size:12.5px;color:var(--tx2)}
+.bar{height:7px;background:rgba(255,255,255,.07);border-radius:20px;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:20px;transition:width .4s}
+.bmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--tx3);margin-top:6px;font-variant-numeric:tabular-nums}
+
+/* focus cards */
+.focus{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+@media(max-width:520px){.focus{grid-template-columns:1fr}}
+.fbox{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 15px}
+.fbox .lbl{font-size:10.5px;letter-spacing:1.6px;font-weight:800;margin-bottom:6px}
+.fbox.main{border-left:3px solid var(--gold)} .fbox.main .lbl{color:var(--gold)}
+.fbox.side{border-left:3px solid var(--green)} .fbox.side .lbl{color:var(--green)}
+.fbox .nm{font-size:15px;font-weight:700;margin-bottom:4px;line-height:1.45}
+.fbox .ds{font-size:12.5px;color:var(--tx2);line-height:1.6}
+
+/* section */
+h2{font-size:15px;font-weight:700;margin:22px 0 10px;color:var(--tx2);display:flex;align-items:center;gap:8px}
+h2 .cnt{margin-left:auto;font-size:12px;color:var(--tx3);font-weight:600}
+
+/* blocks */
+.blocks{display:grid;gap:7px}
+.blk{display:grid;grid-template-columns:66px 1fr;gap:11px;background:var(--card);border:1px solid var(--line);
+  border-left:3px solid var(--line);border-radius:11px;padding:11px 13px;align-items:flex-start;transition:.2s}
+.blk .tm{font-size:11.5px;color:var(--tx3);font-weight:700;font-variant-numeric:tabular-nums;padding-top:3px;line-height:1.45}
+.blk .bd{min-width:0}
+.blk .tt{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.blk .nt{font-size:12.5px;color:var(--tx2);margin-top:3px;line-height:1.6}
+.blk.deep{border-left-color:var(--gold)} .blk.fac{border-left-color:var(--green)}
+.blk.free{border-left-color:var(--blue)} .blk.wrap2{border-left-color:var(--pur)}
+.blk.life{border-left-color:#c98ab0} .blk.rest{opacity:.55}
+.blk.on{background:#232833;border-color:var(--gold);box-shadow:0 0 0 1px rgba(224,177,85,.25)}
+.pill{font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:.5px}
+.pill.live{background:var(--gold);color:#191919}
+.pill.done{background:rgba(94,201,138,.18);color:var(--green)}
+.chk{width:22px;height:22px;flex:none;border-radius:7px;border:2px solid var(--tx3);background:transparent;
+  display:grid;place-items:center;cursor:pointer;margin-left:auto;transition:.15s}
+.chk:active{transform:scale(.9)}
+.chk.on{background:var(--green);border-color:var(--green)}
+.chk svg{width:13px;height:13px;stroke:#0e1014;stroke-width:3.4;fill:none;opacity:0}
+.chk.on svg{opacity:1}
+.blk .tt .chk{align-self:flex-start}
+
+/* streak */
+.streak{display:flex;gap:10px;margin-top:14px}
+.st{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center}
+.st .v{font-size:24px;font-weight:800;color:var(--gold2);line-height:1.2;font-variant-numeric:tabular-nums}
+.st .k{font-size:11.5px;color:var(--tx3);margin-top:2px}
+.dots{display:flex;gap:5px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.dot{width:13px;height:13px;border-radius:4px;background:rgba(255,255,255,.07)}
+.dot.h{background:var(--green)} .dot.p{background:rgba(224,177,85,.55)} .dot.t{box-shadow:0 0 0 2px var(--gold)}
+
+/* rules */
+.rule{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);
+  border-radius:11px;padding:12px 14px;margin-bottom:8px}
+.rule b{display:block;font-size:14.5px;margin-bottom:2px;color:var(--gold2)}
+.rule span{font-size:12.5px;color:var(--tx2)}
+
+/* idea box */
+.iform{display:flex;gap:8px;margin-bottom:12px}
+.iform input{flex:1;min-width:0;background:var(--card2);border:1px solid var(--line);border-radius:11px;
+  padding:12px 14px;color:var(--tx);font-size:15px;font-family:inherit}
+.iform input:focus{outline:none;border-color:var(--gold)}
+.iform button{background:var(--gold);color:#191919;border:none;border-radius:11px;padding:0 18px;
+  font-weight:800;font-size:15px;font-family:inherit;cursor:pointer}
+.iform button:active{transform:scale(.96)}
+.idea{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  border-radius:11px;padding:11px 13px;margin-bottom:7px}
+.idea .tx{flex:1;font-size:14.5px;min-width:0;word-break:break-word}
+.idea .dd{font-size:11px;color:var(--tx3);margin-top:2px}
+.idea .x{flex:none;background:none;border:none;color:var(--tx3);font-size:19px;cursor:pointer;line-height:1;padding:2px 4px}
+.empty{text-align:center;color:var(--tx3);font-size:13.5px;padding:26px 10px;line-height:1.8}
+
+/* rounds list */
+.rd{background:var(--card);border:1px solid var(--line);border-radius:13px;margin-bottom:10px;overflow:hidden}
+.rd.cur{border-color:#4a3a1c}
+.rdh{padding:12px 15px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(255,255,255,.02)}
+.rdn{background:var(--tx3);color:#12141a;font-weight:800;font-size:11.5px;padding:2px 10px;border-radius:20px}
+.rd.cur .rdn{background:var(--gold);color:#191919}
+.rd.done2 .rdn{background:var(--green);color:#12141a}
+.rdt{font-weight:700;font-size:15px}
+.rdd{margin-left:auto;font-size:11.5px;color:var(--tx3);font-variant-numeric:tabular-nums}
+.rdb{padding:12px 15px 14px;font-size:13px;color:var(--tx2);line-height:1.7}
+.rdb .l{color:var(--gold2);font-weight:700}
+.rdb .fin{margin-top:9px;padding-top:9px;border-top:1px solid var(--line);font-size:12.5px}
+.rdb .fin b{color:var(--green)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.chip{background:rgba(224,115,106,.12);color:#e69b94;border:1px solid rgba(224,115,106,.25);
+  border-radius:20px;padding:4px 11px;font-size:12.5px}
+
+/* tabs */
+nav{position:fixed;left:0;right:0;bottom:0;background:rgba(14,16,20,.94);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);display:flex;padding:8px 8px calc(env(safe-area-inset-bottom) + 8px);z-index:50}
+nav button{flex:1;background:none;border:none;color:var(--tx3);font-family:inherit;font-size:11.5px;
+  font-weight:700;padding:6px 2px;cursor:pointer;display:grid;gap:3px;justify-items:center;border-radius:10px}
+nav button .ic{font-size:17px;line-height:1}
+nav button.on{color:var(--gold);background:rgba(224,177,85,.09)}
+.page{display:none} .page.on{display:block}
+footer{text-align:center;color:var(--tx3);font-size:11.5px;margin-top:26px;line-height:1.9}
+</style></head><body><div class="wrap">
+
+<header><div class="hrow">
+  <h1 id="hTitle">วันนี้</h1>
+  <div class="today"><div id="hDate"></div><div class="now" id="hNow"></div></div>
+</div></header>
+
+<!-- ===== วันนี้ ===== -->
+<div class="page on" id="p-today">
+  <div class="rbar" id="rbar"></div>
+  <div class="focus" id="focus"></div>
+  <h2>บล็อกวันนี้ <span class="cnt" id="taskCnt"></span></h2>
+  <div class="blocks" id="blocks"></div>
+  <div class="streak" id="streak"></div>
+  <div class="dots" id="dots"></div>
+  <div class="empty" style="padding:10px 0 0" id="dotsNote"></div>
+</div>
+
+<!-- ===== รอบ ===== -->
+<div class="page" id="p-rounds">
+  <h2>90 วัน — 3 รอบ</h2>
+  <div id="rounds"></div>
+  <h2>แช่แข็งถึงปีหน้า</h2>
+  <div class="chips" id="freeze"></div>
+  <div class="empty" style="text-align:left;padding:12px 2px 0">ข้อยกเว้นเดียว: ของที่เสร็จแล้ว 95% เหลือแค่ “ปล่อยออก” — เอาเข้าบล็อกยืดหยุ่นได้ เพราะคือการปิด ไม่ใช่การเปิดใหม่</div>
+</div>
+
+<!-- ===== ไอเดีย ===== -->
+<div class="page" id="p-ideas">
+  <h2>กล่องไอเดีย <span class="cnt">คิดออก → จดที่นี่ → กลับไปทำงานเดิม</span></h2>
+  <form class="iform" id="iform" autocomplete="off">
+    <input id="iinput" placeholder="ไอเดียใหม่ที่ห้ามลงมือตอนนี้…" maxlength="200">
+    <button type="submit">จด</button>
+  </form>
+  <div id="ideas"></div>
+</div>
+
+<!-- ===== กฎ ===== -->
+<div class="page" id="p-rules">
+  <h2>กฎ 3 ข้อ</h2>
+  <div class="rule"><b>1 · ช่องหลักมีช่องเดียว</b><span>โปรเจกต์หลักทีละ 1 ตัว + โรงงานคลิปที่ปล่อยของทุกวันอีก 1 · ที่เหลือแช่แข็ง ไม่ใช่ทิ้ง</span></div>
+  <div class="rule"><b>2 · ไอเดียใหม่ห้ามลงมือ ให้เข้ากล่อง</b><span>คิดอะไรออกระหว่างรอบ → จดในแท็บ “ไอเดีย” จบ · ห้ามเปิดโฟลเดอร์ ห้ามลอง “แป๊บเดียว”</span></div>
+  <div class="rule"><b>3 · เสร็จ = ออกไปข้างนอกแล้ว</b><span>คลิปต้องอัปขึ้นช่อง · เกมต้องมีคนกดเล่น · หนังต้องส่งประกวด — ก่อนถึงจุดนั้นยังไม่ขึ้นโปรเจกต์ถัดไป</span></div>
+  <h2>ทำไมวางแผนแล้วไม่เคยเดินตาม</h2>
+  <div class="rule" style="border-left-color:var(--blue)"><b>ต้องเลือกใหม่ทุกเช้า</b><span>เปิดคอมมา 40 โฟลเดอร์รอ ทุกตัวน่าทำเท่ากัน · การเลือกกินแรงกว่าการทำ → แอปนี้เลือกให้แล้ว ไม่ต้องเลือกอีก</span></div>
+  <div class="rule" style="border-left-color:var(--blue)"><b>ไอเดียใหม่แรงกว่าไอเดียเก่าเสมอ</b><span>ของใหม่ยังไม่มีปัญหาให้แก้ เลยสนุกกว่าของเก่าที่เหลือแต่งานน่าเบื่อ 10% สุดท้าย · คนมีไอเดียเยอะแพ้ตรงนี้ทุกคน</span></div>
+  <div class="rule" style="border-left-color:var(--blue)"><b>“เสร็จ” ที่ใช้อยู่ ไม่ใช่เสร็จจริง</b><span>ในเครื่องมี 15 โปรเจกต์สถานะ “รอลองจริง” — ทำเสร็จแต่ไม่เคยปล่อยออก · หยุดตรงจุดก่อนเส้นชัยพอดีทุกตัว</span></div>
+  <div class="empty" style="text-align:left;padding:14px 2px 0">ถ้าวันไหนไม่ไหว — <b style="color:var(--gold2)">ตัดบล็อกยืดหยุ่นก่อน ห้ามตัดโรงงานคลิป</b> · ปล่อยของทุกวันสำคัญกว่าปล่อยของเยอะ</div>
+  <footer>ตารางชีวิต · แผนเต็ม: <code>_แผนภาพรวม/แผนตารางชีวิต-90วัน.html</code><br>ข้อมูลเก็บในเครื่องนี้เท่านั้น (ไม่ส่งขึ้นเซิร์ฟเวอร์)</footer>
+</div>
+
+<nav>
+  <button class="on" data-p="today"><span class="ic">◎</span>วันนี้</button>
+  <button data-p="rounds"><span class="ic">▤</span>รอบ</button>
+  <button data-p="ideas"><span class="ic">✦</span>ไอเดีย</button>
+  <button data-p="rules"><span class="ic">⚑</span>กฎ</button>
+</nav>
+</div>
+
+<script>
+/* ================= ข้อมูลแผน ================= */
+const ROUNDS=[
+ {n:1,title:'ปิดหนังสั้น + เปิดช่อง',s:'2026-09-10',e:'2026-10-21',
+  main:{nm:"หนังสั้น The Gifted 30's",ds:'ดราฟต์ 8 อยู่แล้ว · เหลือเคาะ 6 ข้อค้าง → ล็อกบท → gen ภาพ → ตัด → ส่ง Higgsfield'},
+  side:{nm:'ช่อง YouTube — เบื้องหลังการทำหนัง AI',ds:'ทุกวันที่ทำหนัง = ได้คลิปเบื้องหลัง 1 ตัวฟรี ไม่ต้องหาคอนเทนต์ใหม่'},
+  fin:'หนังส่งประกวดแล้ว + ช่องมีคลิปอย่างน้อย 20 ตัว'},
+ {n:2,title:'ช่องเดินด้วยตัวเอง',s:'2026-10-22',e:'2026-11-18',
+  main:{nm:'คอนเทนต์เล่นเกมที่ทำเอง',ds:'มีเกมอยู่แล้ว ~38 ตัว = คลังคอนเทนต์ที่ไม่ต้องผลิตใหม่ · 1 เกม = 1 คลิป + ได้เทสต์เกมไปในตัว'},
+  side:{nm:'ตัดคลิปสั้นจากคลิปยาว',ds:'1 คลิปยาว → 3 คลิปสั้น ลง TikTok / Reels / Shorts'},
+  fin:'ช่องลงสม่ำเสมอครบ 4 สัปดาห์โดยไม่ขาดวัน + รู้แล้วว่าคลิปแบบไหนคนดู'},
+ {n:3,title:'AI idol',s:'2026-11-19',e:'2026-12-30',
+  main:{nm:'The (A)idol — หนัง/รายการประกวด',ds:'ถึงตอนนี้มีของครบมือ: ฝีมือ gen จากรอบ 1 + ช่องที่มีคนดูจากรอบ 2'},
+  side:{nm:'ช่องเดินต่อด้วยระบบเดิม',ds:'ไม่หยุดช่อง — ใช้เบื้องหลัง AI idol เป็นคอนเทนต์เหมือนรอบ 1'},
+  fin:'ผลงาน AI idol ปล่อยออกสาธารณะแล้ว'}
+];
+const FREEZE=['ขายของออนไลน์ / นำเข้าจีน','เกมใหม่ทุกตัว','สตูดิโอ/โปรแกรมใหม่','Adobe Stock','บอร์ดเกม','นิยาย S2','ไอเดียที่ยังไม่เกิด'];
+const BLOCKS=[
+ {s:'08:00',e:'09:00',k:'rest',t:'ตื่น · กินข้าว',n:'ห้ามเปิดงาน ห้ามเช็กยอด'},
+ {s:'09:00',e:'12:00',k:'deep',t:'บล็อกลึก',n:'โปรเจกต์หลักของรอบเท่านั้น — ห้ามแตะตัวอื่นแม้แต่นาทีเดียว',id:'deep',core:1},
+ {s:'12:00',e:'13:00',k:'rest',t:'พัก · กินข้าว'},
+ {s:'13:00',e:'14:30',k:'fac',t:'โรงงานคลิป',n:'ตัด + อัปคลิป 1 ตัว · เบาพอที่จะทำได้แม้วันเพลีย',id:'fac',core:1},
+ {s:'14:30',e:'16:30',k:'free',t:'บล็อกยืดหยุ่น',n:'งานค้างของรอบนี้ · ถ้าเช้าไม่จบ เอามาต่อตรงนี้ · วันไหนไม่ไหว ตัดบล็อกนี้ก่อน',id:'free'},
+ {s:'16:30',e:'17:00',k:'wrap2',t:'ปิดวัน',n:'พิมพ์ “จบวัน” ให้ Claude สรุป + เก็บหางค้าง',id:'wrap'},
+ {s:'17:00',e:'22:00',k:'life',t:'ช่วงส่วนตัว',n:'ออกกำลังกาย 2 ชม. (เลือกเวลาเองในช่วงนี้) · กินข้าว · เล่นเกม',id:'life'}
+];
+
+/* ================= helper ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const TH_M=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const TH_D=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์','เสาร์'];
+const key=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const thDate=d=>TH_D[d.getDay()]+'ที่ '+d.getDate()+' '+TH_M[d.getMonth()]+' '+((d.getFullYear()+543)%100);
+const thShort=s=>{const d=parse(s);return d.getDate()+' '+TH_M[d.getMonth()]};
+const mins=t=>{const[h,m]=t.split(':').map(Number);return h*60+m};
+const mid=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+const days=(a,b)=>Math.round((mid(b)-mid(a))/86400000);
+function LS(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function SS(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+let done=LS('lb.done',{}), ideas=LS('lb.ideas',[]);
+
+/* ================= render ================= */
+function curRound(now){
+  for(const r of ROUNDS){ if(now>=parse(r.s)&&now<=parse(r.e)) return r; }
+  return now<parse(ROUNDS[0].s)?ROUNDS[0]:ROUNDS[ROUNDS.length-1];
+}
+function renderTop(now){
+  $('#hDate').textContent=thDate(now);
+  $('#hNow').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const r=curRound(now), st=parse(r.s), en=parse(r.e);
+  const tot=days(st,en)+1, el=Math.min(Math.max(days(st,now)+1,0),tot), pct=Math.round(el/tot*100);
+  $('#rbar').innerHTML=`<div class="lb">รอบ ${r.n} · กำลังทำอยู่</div>
+    <div class="nm">${r.title}</div>
+    <div class="dt">${thShort(r.s)} – ${thShort(r.e)} · ${Math.ceil(tot/7)} สัปดาห์</div>
+    <div class="bar"><i style="width:${Math.min(pct,100)}%"></i></div>
+    <div class="bmeta"><span>วันที่ ${el} จาก ${tot}</span><span>เหลืออีก ${Math.max(tot-el,0)} วัน</span></div>`;
+  $('#focus').innerHTML=
+    `<div class="fbox main"><div class="lbl">บล็อกลึก</div><div class="nm">${r.main.nm}</div><div class="ds">${r.main.ds}</div></div>
+     <div class="fbox side"><div class="lbl">โรงงานคลิป</div><div class="nm">${r.side.nm}</div><div class="ds">${r.side.ds}</div></div>`;
+}
+function renderBlocks(now){
+  const k=key(now), d=done[k]||{}, cur=now.getHours()*60+now.getMinutes();
+  let nTask=0,nDone=0;
+  $('#blocks').innerHTML=BLOCKS.map(b=>{
+    const on=cur>=mins(b.s)&&cur<mins(b.e);
+    const has=!!b.id, ok=has&&d[b.id];
+    if(has){nTask++; if(ok)nDone++}
+    return `<div class="blk ${b.k}${on?' on':''}">
+      <div class="tm">${b.s}<br>${b.e}</div>
+      <div class="bd"><div class="tt">${b.t}
+        ${on?'<span class="pill live">ตอนนี้</span>':''}
+        ${has?`<button class="chk${ok?' on':''}" data-id="${b.id}" aria-label="ติ๊กเสร็จ"><svg viewBox="0 0 16 16"><polyline points="2.5,8.5 6.5,12.5 13.5,4"/></svg></button>`:''}
+      </div>${b.n?`<div class="nt">${b.n}</div>`:''}</div></div>`;
+  }).join('');
+  $('#taskCnt').textContent=nDone+' / '+nTask+' เสร็จ';
+  $$('.chk').forEach(el=>el.onclick=()=>{
+    const id=el.dataset.id; const dd=done[k]||(done[k]={});
+    dd[id]=!dd[id]; SS('lb.done',done); renderBlocks(new Date()); renderStreak(new Date());
+  });
+}
+function dayScore(k){const d=done[k];if(!d)return 0;const c=BLOCKS.filter(b=>b.core).every(b=>d[b.id]);
+  const any=BLOCKS.some(b=>b.id&&d[b.id]);return c?2:(any?1:0)}
+function renderStreak(now){
+  let streak=0;
+  for(let i=0;i<400;i++){const d=new Date(now);d.setDate(d.getDate()-i);
+    const sc=dayScore(key(d)); if(sc===2)streak++; else if(i===0)continue; else break}
+  const total=Object.keys(done).filter(k=>dayScore(k)===2).length;
+  const r=curRound(now), el=Math.min(Math.max(days(parse(r.s),now)+1,0),days(parse(r.s),parse(r.e))+1);
+  $('#streak').innerHTML=
+    `<div class="st"><div class="v">${streak}</div><div class="k">วันติดต่อกัน</div></div>
+     <div class="st"><div class="v">${total}</div><div class="k">วันครบทั้งหมด</div></div>
+     <div class="st"><div class="v">${el}</div><div class="k">วันในรอบนี้</div></div>`;
+  let h='';
+  for(let i=27;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);
+    const sc=dayScore(key(d));h+=`<span class="dot ${sc===2?'h':sc===1?'p':''}${i===0?' t':''}"></span>`}
+  $('#dots').innerHTML=h;
+  $('#dotsNote').innerHTML='28 วันล่าสุด · <b style="color:var(--green)">เขียว</b> = ทำครบทั้งบล็อกลึกและโรงงานคลิป · <b style="color:var(--gold)">ทอง</b> = ทำได้บางส่วน';
+}
+function renderRounds(now){
+  $('#rounds').innerHTML=ROUNDS.map(r=>{
+    const cur=now>=parse(r.s)&&now<=parse(r.e), past=now>parse(r.e);
+    return `<div class="rd ${cur?'cur':''} ${past?'done2':''}">
+      <div class="rdh"><span class="rdn">รอบ ${r.n}</span><span class="rdt">${r.title}</span>
+        <span class="rdd">${thShort(r.s)} – ${thShort(r.e)}</span></div>
+      <div class="rdb"><span class="l">บล็อกลึก:</span> ${r.main.nm} — ${r.main.ds}<br>
+        <span class="l" style="color:var(--green)">โรงงานคลิป:</span> ${r.side.nm} — ${r.side.ds}
+        <div class="fin"><b>ปิดรอบเมื่อ:</b> ${r.fin}</div></div></div>`}).join('');
+  $('#freeze').innerHTML=FREEZE.map(f=>`<span class="chip">${f}</span>`).join('');
+}
+function renderIdeas(){
+  $('#ideas').innerHTML=ideas.length?ideas.map((it,i)=>
+    `<div class="idea"><div class="tx">${it.t.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}
+      <div class="dd">${it.d}</div></div><button class="x" data-i="${i}">×</button></div>`).join('')
+    :'<div class="empty">ยังไม่มีไอเดียค้าง<br>คิดอะไรออกระหว่างรอบ ให้จดที่นี่แล้วกลับไปทำงานเดิม<br>ไอเดียไม่หายไปไหน มันรออยู่ตรงนี้</div>';
+  $$('#ideas .x').forEach(b=>b.onclick=()=>{ideas.splice(+b.dataset.i,1);SS('lb.ideas',ideas);renderIdeas()});
+}
+$('#iform').onsubmit=e=>{e.preventDefault();const v=$('#iinput').value.trim();if(!v)return;
+  const n=new Date(); ideas.unshift({t:v,d:thDate(n)}); SS('lb.ideas',ideas); $('#iinput').value=''; renderIdeas()};
+
+const TITLES={today:'วันนี้',rounds:'90 วัน',ideas:'กล่องไอเดีย',rules:'กฎ'};
+$$('nav button').forEach(b=>b.onclick=()=>{
+  $$('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  $$('.page').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.p));
+  $('#hTitle').textContent=TITLES[b.dataset.p]; scrollTo(0,0);
+});
+
+function tick(){const now=new Date();renderTop(now);renderBlocks(now);renderStreak(now);renderRounds(now)}
+tick(); renderIdeas(); setInterval(tick,60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
+</script></body></html>
