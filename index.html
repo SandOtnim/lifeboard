@@ -129,6 +129,9 @@ nav button .ic{font-size:17px;line-height:1}
 nav button.on{color:var(--gold);background:rgba(224,177,85,.09)}
 .page{display:none} .page.on{display:block}
 footer{text-align:center;color:var(--tx3);font-size:11.5px;margin-top:26px;line-height:1.9}
+.plan-picker{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 18px;color:var(--muted)}
+.plan-picker input,.plan-picker button,.plan-open{font:inherit;background:var(--panel,#1b1e26);color:var(--text,#eee);border:1px solid var(--line,#393d49);border-radius:8px;padding:9px 12px;cursor:pointer;color-scheme:dark}
+.plan-outcome{padding:12px;border-left:3px solid var(--gold);margin:12px 0;line-height:1.7}.plan-day{margin:12px 0}.plan-day summary{cursor:pointer;padding:14px;font-weight:600;line-height:1.6}.plan-day .rdb p{margin:10px 0}.plan-old{margin:24px 0}.plan-old>summary{cursor:pointer;color:var(--muted);padding:12px}.plan-type{color:var(--gold2);font-size:12px}.plan-open{margin-top:10px}.plan-picker input{max-width:175px}
 </style></head><body><div class="wrap">
 
 <header><div class="hrow">
@@ -138,6 +141,7 @@ footer{text-align:center;color:var(--tx3);font-size:11.5px;margin-top:26px;line-
 
 <!-- ===== วันนี้ ===== -->
 <div class="page on" id="p-today">
+  <div class="plan-picker"><label for="planDate">ดูตารางวันที่</label><input type="date" id="planDate"><button id="planToday">กลับวันนี้</button></div>
   <div class="rbar" id="rbar"></div>
   <div class="focus" id="focus"></div>
   <h2>บล็อกวันนี้ <span class="cnt" id="taskCnt"></span></h2>
@@ -149,11 +153,11 @@ footer{text-align:center;color:var(--tx3);font-size:11.5px;margin-top:26px;line-
 
 <!-- ===== รอบ ===== -->
 <div class="page" id="p-rounds">
-  <h2>90 วัน — 3 รอบ</h2>
+  <h2>17–30 กันยายน 2569 · The Gifted + พอร์ต</h2>
   <div id="rounds"></div>
-  <h2>แช่แข็งถึงปีหน้า</h2>
+  <h2>พักไว้ในสองสัปดาห์นี้</h2>
   <div class="chips" id="freeze"></div>
-  <div class="empty" style="text-align:left;padding:12px 2px 0">ข้อยกเว้นเดียว: ของที่เสร็จแล้ว 95% เหลือแค่ “ปล่อยออก” — เอาเข้าบล็อกยืดหยุ่นได้ เพราะคือการปิด ไม่ใช่การเปิดใหม่</div>
+  <div class="empty" style="text-align:left;padding:12px 2px 0">ยังไม่เปิดช่องใหม่หรือพัฒนาเครื่องมือเพิ่ม แก้เครื่องมือเฉพาะจุดที่ขวางการผลิตจริง</div>
 </div>
 
 <!-- ===== ไอเดีย ===== -->
@@ -168,21 +172,18 @@ footer{text-align:center;color:var(--tx3);font-size:11.5px;margin-top:26px;line-
 
 <!-- ===== กฎ ===== -->
 <div class="page" id="p-rules">
-  <h2>กฎ 3 ข้อ</h2>
-  <div class="rule"><b>1 · ช่องหลักมีช่องเดียว</b><span>โปรเจกต์หลักทีละ 1 ตัว + โรงงานคลิปที่ปล่อยของทุกวันอีก 1 · ที่เหลือแช่แข็ง ไม่ใช่ทิ้ง</span></div>
-  <div class="rule"><b>2 · ไอเดียใหม่ห้ามลงมือ ให้เข้ากล่อง</b><span>คิดอะไรออกระหว่างรอบ → จดในแท็บ “ไอเดีย” จบ · ห้ามเปิดโฟลเดอร์ ห้ามลอง “แป๊บเดียว”</span></div>
-  <div class="rule"><b>3 · เสร็จ = ออกไปข้างนอกแล้ว</b><span>คลิปต้องอัปขึ้นช่อง · เกมต้องมีคนกดเล่น · หนังต้องส่งประกวด — ก่อนถึงจุดนั้นยังไม่ขึ้นโปรเจกต์ถัดไป</span></div>
-  <h2>ทำไมวางแผนแล้วไม่เคยเดินตาม</h2>
-  <div class="rule" style="border-left-color:var(--blue)"><b>ต้องเลือกใหม่ทุกเช้า</b><span>เปิดคอมมา 40 โฟลเดอร์รอ ทุกตัวน่าทำเท่ากัน · การเลือกกินแรงกว่าการทำ → แอปนี้เลือกให้แล้ว ไม่ต้องเลือกอีก</span></div>
-  <div class="rule" style="border-left-color:var(--blue)"><b>ไอเดียใหม่แรงกว่าไอเดียเก่าเสมอ</b><span>ของใหม่ยังไม่มีปัญหาให้แก้ เลยสนุกกว่าของเก่าที่เหลือแต่งานน่าเบื่อ 10% สุดท้าย · คนมีไอเดียเยอะแพ้ตรงนี้ทุกคน</span></div>
-  <div class="rule" style="border-left-color:var(--blue)"><b>“เสร็จ” ที่ใช้อยู่ ไม่ใช่เสร็จจริง</b><span>ในเครื่องมี 15 โปรเจกต์สถานะ “รอลองจริง” — ทำเสร็จแต่ไม่เคยปล่อยออก · หยุดตรงจุดก่อนเส้นชัยพอดีทุกตัว</span></div>
-  <div class="empty" style="text-align:left;padding:14px 2px 0">ถ้าวันไหนไม่ไหว — <b style="color:var(--gold2)">ตัดบล็อกยืดหยุ่นก่อน ห้ามตัดโรงงานคลิป</b> · ปล่อยของทุกวันสำคัญกว่าปล่อยของเยอะ</div>
-  <footer>ตารางชีวิต · แผนเต็ม: <code>_แผนภาพรวม/แผนตารางชีวิต-90วัน.html</code><br>ข้อมูลเก็บในเครื่องนี้เท่านั้น (ไม่ส่งขึ้นเซิร์ฟเวอร์)</footer>
+  <h2>ข้อตกลงสองสัปดาห์นี้</h2>
+  <div class="rule"><b>1 · The Gifted + พอร์ตหางาน</b><span>หนังเป็นโปรเจกต์หลัก พอร์ตเป็นทางหารายได้ ไอเดียอื่นจดไว้ก่อน</span></div>
+  <div class="rule"><b>2 · จบงานภายใน 16:00</b><span>16:00–22:00 เป็นช่วงออกกำลัง 2–3 ชั่วโมง เลือกเวลาเอง รวมเดินทาง กินข้าวและพัก หลัง 22:00 ไม่มีงานประจำ</span></div>
+  <div class="rule"><b>3 · วันเหนื่อยทำฉบับขั้นต่ำได้</b><span>ทำงานหลัก 60–90 นาที แล้วจดก้าวถัดไป งานค้างเลื่อนไปแทนงานวันถัดไป ไม่กองเพิ่มหรือเบียดวันพัก</span></div>
+  <div class="rule"><b>ทดลองหนึ่งฉากก่อนขยายทั้งเรื่อง</b><span>เลือกฉากสั้นที่มีความยากแบบที่เจอบ่อย เตรียม Asset เท่าที่ฉากนี้ต้องใช้ ทดลอง 1 คลิปก่อนเพิ่มตัวเลือกเมื่อ Prompt ใช้ได้</span></div>
+  <div class="rule"><b>เป้าหมายเมื่อครบสองสัปดาห์</b><span>ฉากทดลองจบหนึ่งฉาก พอร์ตถูกส่งจริง และรู้เวลาและต้นทุนผลิต ไม่ใช่ทำหนังเต็มให้จบภายในสองสัปดาห์</span></div>
+  <footer>ตารางชีวิต · อัปเดตแผน 16 กันยายน 2569<br>เครื่องหมายทำเสร็จและไอเดียเก็บในเบราว์เซอร์นี้ ไม่ซิงก์ข้ามอุปกรณ์</footer>
 </div>
 
 <nav>
   <button class="on" data-p="today"><span class="ic">◎</span>วันนี้</button>
-  <button data-p="rounds"><span class="ic">▤</span>รอบ</button>
+  <button data-p="rounds"><span class="ic">▤</span>2 สัปดาห์</button>
   <button data-p="ideas"><span class="ic">✦</span>ไอเดีย</button>
   <button data-p="rules"><span class="ic">⚑</span>กฎ</button>
 </nav>
@@ -309,12 +310,184 @@ function renderIdeas(){
 $('#iform').onsubmit=e=>{e.preventDefault();const v=$('#iinput').value.trim();if(!v)return;
   const n=new Date(); ideas.unshift({t:v,d:thDate(n)}); SS('lb.ideas',ideas); $('#iinput').value=''; renderIdeas()};
 
-const TITLES={today:'วันนี้',rounds:'90 วัน',ideas:'กล่องไอเดีย',rules:'กฎ'};
+const TITLES={today:'วันนี้',rounds:'แผน 2 สัปดาห์',ideas:'กล่องไอเดีย',rules:'กฎ'};
 $$('nav button').forEach(b=>b.onclick=()=>{
   $$('nav button').forEach(x=>x.classList.toggle('on',x===b));
   $$('.page').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.p));
   $('#hTitle').textContent=TITLES[b.dataset.p]; scrollTo(0,0);
 });
+
+const PLAN = [
+  {
+    "kind": "work",
+    "title": "ขอบเขตหนังและฉากทดลอง",
+    "am": "อ่านบท The Gifted จับเวลาคร่าว ๆ และเลือกเวอร์ชันที่จะผลิต",
+    "pm": "ทำรายการฉาก เลือกฉากสั้นสำหรับทดลองผลิต และตั้งเพดานงบผลิต",
+    "outcome": "รู้ขอบเขตหนัง ฉากที่จะเริ่ม และเพดานงบ",
+    "date": "2026-09-17",
+    "day": 1
+  },
+  {
+    "kind": "work",
+    "title": "แตกช็อตและวางพอร์ต",
+    "am": "แตกฉากทดลองเป็นช็อต และลิสต์ Asset ที่ต้องใช้",
+    "pm": "เลือกผลงานสำหรับพอร์ต เทียบกับประกาศงาน Gen AI ที่สนใจ",
+    "outcome": "ได้รายการช็อตและโครงพอร์ต",
+    "date": "2026-09-18",
+    "day": 2
+  },
+  {
+    "kind": "work",
+    "title": "เตรียม Reference และพอร์ตแรก",
+    "am": "เตรียม Reference ตัวละคร เสื้อผ้า และสถานที่ของฉากทดลอง",
+    "pm": "จัดพอร์ตฉบับแรก ใส่บทบาทที่ทำและช่องทางติดต่อ",
+    "outcome": "Asset หลักพร้อม และพอร์ตเปิดดูได้",
+    "date": "2026-09-19",
+    "day": 3
+  },
+  {
+    "kind": "work",
+    "title": "ส่งพอร์ตชุดแรก",
+    "am": "เติมตัวอย่างภาพ AI เฉพาะส่วนที่ขาด ถ้าครบแล้วให้ปรับการนำเสนอ",
+    "pm": "ตรวจพอร์ตและส่งผู้ว่าจ้างที่ตรงงานประมาณ 2–3 แห่ง",
+    "outcome": "ส่งพอร์ตจริง ไม่รอให้สมบูรณ์แบบ",
+    "date": "2026-09-20",
+    "day": 4
+  },
+  {
+    "kind": "work",
+    "title": "ทดสอบช็อตยาก",
+    "am": "เตรียม Prompt และทดลองช็อตยากของฉาก 1–2 ช็อต",
+    "pm": "เลือกผลลัพธ์ จดข้อผิดพลาด เวลาและต้นทุน แล้วปรับวิธีทำ",
+    "outcome": "รู้ว่าวิธีผลิตใช้ได้ตรงไหนและติดตรงไหน",
+    "date": "2026-09-21",
+    "day": 5
+  },
+  {
+    "kind": "light",
+    "title": "ทบทวนสัปดาห์แรก",
+    "am": "ดูงานที่เสร็จ ค่าใช้จ่าย และจัดลำดับงานสัปดาห์หน้า",
+    "pm": "",
+    "outcome": "มีแผนต่อจากผลทดลอง ใช้เพียง 60–90 นาที",
+    "date": "2026-09-22",
+    "day": 6
+  },
+  {
+    "kind": "rest",
+    "title": "พักเต็มวัน",
+    "am": "",
+    "pm": "",
+    "outcome": "พักโดยไม่ต้องชดเชยงานค้าง",
+    "date": "2026-09-23",
+    "day": 7
+  },
+  {
+    "kind": "work",
+    "title": "ผลิตช็อตชุดแรก",
+    "am": "แก้ปัญหาจากการทดลอง ล็อก Reference และแนว Prompt",
+    "pm": "ผลิตช็อตชุดแรกของฉาก",
+    "outcome": "ได้ช็อตที่นำไปตัดต่อได้จริง",
+    "date": "2026-09-24",
+    "day": 8
+  },
+  {
+    "kind": "work",
+    "title": "ผลิตต่อและวางไทม์ไลน์",
+    "am": "ผลิตช็อตชุดถัดไป รวมช็อตที่ใช้ Asset เดียวกัน",
+    "pm": "คัดเทคและวางลงไทม์ไลน์ทันที",
+    "outcome": "เห็นฉากเริ่มต่อกันเป็นเรื่อง",
+    "date": "2026-09-25",
+    "day": 9
+  },
+  {
+    "kind": "work",
+    "title": "ส่งพอร์ตและติดตามงาน",
+    "am": "ตรวจพอร์ตเทียบกับงานที่จะสมัคร ปรับเฉพาะจุดจำเป็น",
+    "pm": "ส่งอีก 2–3 แห่ง ติดตามชุดแรกเมื่อผ่านราว 5–7 วันทำการ",
+    "outcome": "มีโอกาสรับงานเพิ่ม ไม่รอคำตอบแห่งเดียว",
+    "date": "2026-09-26",
+    "day": 10
+  },
+  {
+    "kind": "work",
+    "title": "ตัดต่อฉากทดลอง",
+    "am": "ตัดต่อฉากทดลอง ใส่เสียงพูดและเสียงประกอบที่จำเป็น",
+    "pm": "ดูความต่อเนื่อง ทำรายการช็อตที่ขาดหรือใช้ไม่ได้",
+    "outcome": "มีฉากฉบับตัดต่อแรก",
+    "date": "2026-09-27",
+    "day": 11
+  },
+  {
+    "kind": "work",
+    "title": "ปิดฉากทดลอง",
+    "am": "สร้างแก้เฉพาะช็อตที่จำเป็น",
+    "pm": "ตัดต่อและส่งออกฉากทดลองให้ดูได้ตั้งแต่ต้นจนจบ",
+    "outcome": "ฉากทดลองจบหนึ่งฉาก",
+    "date": "2026-09-28",
+    "day": 12
+  },
+  {
+    "kind": "light",
+    "title": "สรุปต้นทุนและก้าวถัดไป",
+    "am": "สรุปเวลาผลิต ต้นทุน ปัญหา และเลือกฉากถัดไป",
+    "pm": "",
+    "outcome": "ประเมินแผนหนังต่อจากข้อมูลจริง ใช้ 60–90 นาที",
+    "date": "2026-09-29",
+    "day": 13
+  },
+  {
+    "kind": "rest",
+    "title": "พักและคืนแรง",
+    "am": "",
+    "pm": "",
+    "outcome": "จบสองสัปดาห์โดยยังมีแรงทำต่อ",
+    "date": "2026-09-30",
+    "day": 14
+  }
+];
+let selectedDate='';
+const planByDate = d => PLAN.find(p=>p.date===d);
+const viewedDate = now => selectedDate || key(now);
+function planBlocks(k){
+ const p=planByDate(k), evening={s:'16:00',e:'22:00',k:'life',t:'ออกกำลังและเวลาส่วนตัว',n:'ออกกำลัง 2–3 ชั่วโมง เลือกเวลาเองในช่วงนี้ · เดินทาง กินข้าวและพัก'}, night={s:'22:00',e:'24:00',k:'rest',t:'พักหลังสี่ทุ่ม',n:'ไม่มีงานประจำ ไม่ต้องกลับมาชดเชยงาน'};
+ if(!p)return [{s:'10:00',e:'16:00',k:'rest',t:k<PLAN[0].date?'เตรียมเริ่มพรุ่งนี้':'ทบทวนก่อนวางรอบถัดไป',n:k<PLAN[0].date?'แผนเริ่ม 17 กันยายน ดูล่วงหน้าได้ในแท็บ 2 สัปดาห์':'ยังไม่ได้กำหนดงานเพิ่ม ไม่กลับไปใช้แผนช่องเดิมอัตโนมัติ'},evening,night];
+ if(p.kind==='rest')return [{s:'10:00',e:'16:00',k:'rest',t:'พักเต็มวัน',n:p.outcome},evening,night];
+ if(p.kind==='light')return [{s:'10:00',e:'11:30',k:'deep',t:p.title,n:p.am,id:'plan26-review',core:1},{s:'11:30',e:'16:00',k:'rest',t:'พักส่วนที่เหลือของวัน',n:'ทบทวนเพียง 60–90 นาที ไม่เติมงานใหม่'},evening,night];
+ return [{s:'10:00',e:'12:00',k:'deep',t:p.am,n:'งานหลักช่วงเช้า',id:'plan26-am',core:1},{s:'12:00',e:'13:00',k:'rest',t:'พักและกินข้าว'},
+ {s:'13:00',e:'15:00',k:'fac',t:p.pm,n:'ลงมือให้ได้ผลลัพธ์ของวันนี้',id:'plan26-pm',core:1},
+ {s:'15:00',e:'15:30',k:'free',t:'ส่งพอร์ต / ตอบงาน / ติดตามงาน',n:p.day<4?'เตรียมรายชื่อและอ่านประกาศที่ตรงกับพอร์ต':'ติดตามเมื่อถึงจังหวะ หากไม่มีข้อความให้จัดรายชื่อรอบต่อไป',id:'plan26-contact'},
+ {s:'15:30',e:'16:00',k:'wrap2',t:'เก็บไฟล์และปิดวัน',n:'จดสิ่งที่เสร็จ และงานแรกของพรุ่งนี้',id:'plan26-wrap'},evening,night];
+}
+const oldRenderRounds=renderRounds;
+renderTop=function(now){
+ const k=viewedDate(now),p=planByDate(k);$('#planDate').value=k;
+ $('#hDate').textContent=thDate(parse(k));$('#hNow').textContent=k===key(now)?String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'):'ดูตารางวันอื่น';
+ const count=PLAN.filter(x=>x.kind!=='rest'&&planBlocks(x.date).filter(b=>b.core).every(b=>done[x.date]?.[b.id])).length;
+ $('#rbar').innerHTML=`<div class="lb">17–30 กันยายน 2569 · แผนสองสัปดาห์</div><div class="nm">The Gifted + พอร์ต Gen AI</div><div class="dt">${p?'วันที่ '+p.day+' / 14 · '+p.title:k<PLAN[0].date?'เริ่มพรุ่งนี้ · วันนี้พักได้':'ครบรอบแล้ว · ประเมินก่อนวางแผนใหม่'}</div><div class="bar"><i style="width:${count/12*100}%"></i></div><div class="bmeta">งานหลักครบ ${count} / 12 วันทำงานและวันเบา · วันพัก 2 วัน</div>`;
+ $('#focus').innerHTML=`<div class="fbox main"><div class="lbl">โปรเจกต์หลัก</div><div class="nm">The Gifted</div><div class="ds">ทำฉากทดลองให้จบหนึ่งฉาก รู้เวลาและต้นทุนจริง</div></div><div class="fbox side"><div class="lbl">ทางหารายได้</div><div class="nm">พอร์ตภาพ AI และสมัครงาน</div><div class="ds">ใช้ผลงานเดิม ส่งจริงและติดตาม ไม่เปิดช่องใหม่ระหว่างรอ</div></div>${p?'<div class="plan-outcome">ผลลัพธ์วันนี้: '+p.outcome+'</div>':''}`;
+};
+renderBlocks=function(now){
+ const k=viewedDate(now),d=done[k]||{},cur=now.getHours()*60+now.getMinutes(),blocks=planBlocks(k),tasks=blocks.filter(b=>b.id);
+ $('#blocks').innerHTML=blocks.map(b=>{const on=k===key(now)&&cur>=mins(b.s)&&cur<mins(b.e),ok=b.id&&d[b.id];return `<div class="blk ${b.k}${on?' on':''}"><div class="tm">${b.s}<br>${b.e}</div><div class="bd"><div class="tt">${b.t}${on?'<span class="pill live">ตอนนี้</span>':''}${b.id?`<button class="chk${ok?' on':''}" data-id="${b.id}" aria-label="ทำเสร็จ: ${b.t}" aria-pressed="${!!ok}"><svg viewBox="0 0 16 16"><polyline points="2.5,8.5 6.5,12.5 13.5,4"/></svg></button>`:''}</div>${b.n?'<div class="nt">'+b.n+'</div>':''}</div></div>`}).join('');
+ $('#taskCnt').textContent=tasks.length?tasks.filter(b=>d[b.id]).length+' / '+tasks.length+' เสร็จ':'ไม่มีงานที่ต้องติ๊ก';
+ $$('#blocks .chk').forEach(el=>el.onclick=()=>{const dd=done[k]||(done[k]={});dd[el.dataset.id]=!dd[el.dataset.id];SS('lb.done',done);tick();});
+};
+const oldDayScore=dayScore;
+dayScore=function(k){const p=planByDate(k);if(!p)return oldDayScore(k);if(p.kind==='rest')return 0;const blocks=planBlocks(k),d=done[k]||{};return blocks.filter(b=>b.core).every(b=>d[b.id])?2:blocks.some(b=>b.id&&d[b.id])?1:0;};
+renderStreak=function(now){
+ const completed=PLAN.filter(p=>p.kind!=='rest'&&dayScore(p.date)===2).length,partial=PLAN.filter(p=>dayScore(p.date)===1).length;
+ $('#streak').innerHTML=`<div class="st"><div class="v">${completed}</div><div class="k">วันทำงานหลักครบ</div></div><div class="st"><div class="v">${partial}</div><div class="k">วันที่เดินหน้าแล้ว</div></div><div class="st"><div class="v">2</div><div class="k">วันพักที่วางไว้</div></div>`;
+ $('#dots').innerHTML=PLAN.map(p=>`<span title="${thShort(p.date)} · ${p.title}" class="dot ${dayScore(p.date)===2?'h':dayScore(p.date)===1?'p':''}${p.date===key(now)?' t':''}"></span>`).join('');
+ $('#dotsNote').textContent='14 วันของแผน · เขียว = งานหลักครบ · ทอง = ทำได้บางส่วน · วันพักไม่ต้องติ๊กและไม่ถือว่าขาด';
+};
+renderRounds=function(now){
+ oldRenderRounds(now);const old=$('#rounds').innerHTML;
+ $('#rounds').innerHTML=PLAN.map(p=>`<details class="rd plan-day ${p.date===key(now)?'cur':''}" ${p.date===key(now)?'open':''}><summary>${thShort(p.date)} · วันที่ ${p.day} · ${p.title} <span class="plan-type">${p.kind==='rest'?'วันพัก':p.kind==='light'?'วันเบา':'วันทำงาน'}</span></summary><div class="rdb">${planBlocks(p.date).map(b=>'<p><b>'+b.s+'–'+b.e+'</b> '+b.t+(b.n?' · '+b.n:'')+'</p>').join('')}<div class="fin"><b>ผลลัพธ์:</b> ${p.outcome}</div><button class="plan-open" data-date="${p.date}">เปิดตารางวันนี้</button></div></details>`).join('')+'<details class="plan-old"><summary>แผน 90 วันเดิม — เก็บไว้อ้างอิง ยังไม่ใช่ตารางที่ต้องทำ</summary>'+old+'</details>';
+ $('#freeze').innerHTML=['ช่องใหม่ทุกช่อง','Prism / The A.Idol','หอปรารถนาดี','เกมใหม่','เครื่องมือใหม่ที่ไม่จำเป็น'].map(x=>'<span class="chip">'+x+'</span>').join('');
+ $$('.plan-open').forEach(b=>b.onclick=()=>{selectedDate=b.dataset.date;$('nav button[data-p="today"]').click();tick();});
+};
+$('#planDate').onchange=e=>{const v=e.target.value;if(/^\d{4}-\d{2}-\d{2}$/.test(v)){selectedDate=v;tick();}};
+$('#planToday').onclick=()=>{selectedDate='';tick();};
 
 function tick(){const now=new Date();renderTop(now);renderBlocks(now);renderStreak(now);renderRounds(now)}
 tick(); renderIdeas(); setInterval(tick,60000);
